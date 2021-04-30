@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Lib
+import Data.FA.DFA
 
 main :: IO ()
 main = putStrLn "Test suite not yet implemented."
