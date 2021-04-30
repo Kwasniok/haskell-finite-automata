@@ -15,12 +15,12 @@ data DFA q a = DFA {
     acceptStates :: Set.Set q
 }
 
-next :: DFA q a -> a -> DFA q a
-next (DFA qs as tf qi qfs) a = DFA qs as tf (tf qi a) qfs
+readSymbol :: DFA q a -> a -> DFA q a
+readSymbol (DFA qs as tf qi qfs) a = DFA qs as tf (tf qi a) qfs
 
 read :: DFA q a -> [a] -> q
 read fa [] = initialState fa
-read fa (w:ws) = read (next fa w) ws
+read fa (w:ws) = read (readSymbol fa w) ws
 
 accepts :: (Prelude.Ord q) => DFA q a -> [a] -> Prelude.Bool
 accepts fa ws = Set.member (read fa ws) (acceptStates fa)
