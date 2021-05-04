@@ -7,7 +7,7 @@ module Data.FA.Symbol (
 
 import Data.Collection.Finite
 
-class (Finite a) => Symbol a where
+class (Finite a, Eq a) => Symbol a where
     alphabet :: [a]
     alphabet = elements
 
