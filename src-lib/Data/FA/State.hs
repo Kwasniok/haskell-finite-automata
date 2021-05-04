@@ -7,7 +7,7 @@ module Data.FA.State (
 
 import Data.Collection.Finite
 
-class (Finite a) => State a where
+class (Finite a, Eq a) => State a where
     states :: [a]
     states = elements
 
