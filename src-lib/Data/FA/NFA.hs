@@ -1,17 +1,19 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE GADTs #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 module Data.FA.NFA (
     NFA (MkNFA),
     readSymbol,
     readWord,
-    accepts,
 ) where
 
 import Data.Maybe
 import Data.Set
 import Data.FA.State
 import Data.FA.Symbol
+import qualified Data.FA.Base as Base
 
 data NFA a b where
     MkNFA :: (State a, Ord a, Symbol b, Ord b) => (a -> Maybe b -> Set a) -> a -> Set a -> NFA a b
@@ -67,3 +69,6 @@ accepts nfa@(MkNFA _ _ qas) word = anyAccepting qfs where
     -- True if any of the states is an accepting state
     -- Set a -> Bool
     anyAccepting = (any (\q -> elem q qas)) . toList
+
+instance (State a, Symbol b) => Base.FA b (NFA a b) where
+    accepts = accepts

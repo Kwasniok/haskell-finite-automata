@@ -52,6 +52,7 @@ library
   exposed-modules: Data.Collection.Finite,
                    Data.FA.Symbol,
                    Data.FA.State,
+                   Data.FA.Base
                    Data.FA.DFA,
                    Data.FA.NFA
 

@@ -1,16 +1,18 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE GADTs #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 module Data.FA.DFA (
     DFA (MkDFA),
     readSymbol,
     readWord,
-    accepts,
 ) where
 
 import Data.Set
 import Data.FA.State
 import Data.FA.Symbol
+import qualified Data.FA.Base as Base
 
 data DFA a b where
     MkDFA :: (State a, Ord a, Symbol b) => (a -> b -> a) -> a -> Set a -> DFA a b
@@ -32,3 +34,6 @@ readWord dfa@(MkDFA _ q0 _) word = f q0 word where
 
 accepts :: DFA a b -> [b] -> Bool
 accepts dfa@(MkDFA _ _ qas) word = member (readWord dfa word) qas
+
+instance (State a, Symbol b) => Base.FA b (DFA a b) where
+    accepts = accepts
