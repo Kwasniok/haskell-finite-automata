@@ -89,4 +89,5 @@ test-suite finite-automata-test
 
   -- Test dependencies.
   build-depends:       base ^>=4.14.1.0,
+                       containers>=0.6.1.0,
                        finite-automata ==0.1.0.0
