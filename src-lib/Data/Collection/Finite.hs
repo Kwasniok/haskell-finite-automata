@@ -8,7 +8,7 @@ module Data.Collection.Finite (
 import Data.Maybe
 
 class Finite a where
-    elements :: [a]
+    elements :: [a] -- assert ALL possible elements of type a are listed here exactly once!
 
 instance Finite () where
     elements = [()]

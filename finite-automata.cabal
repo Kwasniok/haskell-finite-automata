@@ -51,6 +51,7 @@ library
   -- Modules exported by the library.
   exposed-modules: Data.FA,
                    Data.Collection.Finite,
+                   Data.Collection.FiniteSet,
                    Data.FA.Symbol,
                    Data.FA.State,
                    Data.FA.Base

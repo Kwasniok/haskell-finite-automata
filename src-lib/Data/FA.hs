@@ -9,9 +9,10 @@ State,
     dfaToNfa,
 ) where
 
+import Prelude hiding (map)
 import Data.Maybe
-import Data.Set as Set
 import Data.Collection.Finite
+import Data.Collection.FiniteSet
 import Data.FA.State
 import Data.FA.Symbol
 import Data.FA.Base (FARead, FAAccept, readSymbol, readWord, accepts)
@@ -32,4 +33,4 @@ maybefy f g _ (Just x) = g (f x)
 -- converts a DFA to an equivalent NFA
 dfaToNfa :: (State a, Symbol b, Ord b) => DFA a b -> NFA a b
 dfaToNfa (MkDFA t1 qi qas) = (MkNFA t2 qi qas) where
-    t2 q = maybefy (t1 q) Set.singleton Set.empty
+    t2 q = maybefy (t1 q) singleton Empty
