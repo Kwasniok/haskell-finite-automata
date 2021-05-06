@@ -1,4 +1,4 @@
-# haskell-finita-automata
+# haskell-finite-automata
 A cabal package for finite automata in [haskell](https://www.haskell.org).
 
 ## Dependencies
