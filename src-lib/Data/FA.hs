@@ -1,7 +1,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
 module Data.FA (
-State,
+    State,
     Symbol,
     FARead,
     FAAccept,
