@@ -1,7 +1,8 @@
 module Data.FA (
 State,
     Symbol,
-    FA,
+    FARead,
+    FAAccept,
     accepts,
     DFA (MkDFA),
     NFA (MkNFA),
@@ -13,9 +14,11 @@ import Data.Set as Set
 import Data.Collection.Finite
 import Data.FA.State
 import Data.FA.Symbol
-import Data.FA.Base (FA, accepts)
+import Data.FA.Base (FARead, FAAccept, readSymbol, readWord, accepts)
 import Data.FA.DFA (DFA (MkDFA))
 import Data.FA.NFA (NFA (MkNFA))
+import qualified Data.FA.DFA as DFA
+import qualified Data.FA.NFA as NFA
 
 -- transforms f :: (a -> b) to h ::(Maybe a -> c)
 -- with a transformation g :: (b -> c) and a default value d ::c

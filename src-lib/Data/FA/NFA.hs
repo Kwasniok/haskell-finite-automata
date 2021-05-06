@@ -5,8 +5,6 @@
 
 module Data.FA.NFA (
     NFA (MkNFA),
-    readSymbol,
-    readWord,
 ) where
 
 import Data.Maybe
@@ -40,26 +38,41 @@ readEmptySymbols (MkNFA t _ _) qis = Prelude.foldr union empty qss where
     -- res :: Set a -> Set a
     res qs = flatten (Data.Set.map (\q -> t q Nothing) qs)
 
-readSymbol :: NFA a b -> a -> b -> Set a
-readSymbol (MkNFA t _ _) q0 s = (t q0 (Just s))
+readNonEmptySymbol :: NFA a b -> Set a -> b -> Set a
+readNonEmptySymbol (MkNFA t _ _) qs x = flatten (Data.Set.map (\q -> (t q (Just x))) qs)
 
-readWord :: NFA a b -> [b] -> Set a
-readWord nfa@(MkNFA _ q0 _) word = rrw q0s word where
-    -- initial state (incl. empty move)
-    -- q0s :: Set a
-    q0s = emptyMove (singleton q0)
+readSymbol :: forall a b. (Ord a) => NFA a b -> Set a -> b -> Set a
+readSymbol nfa q0s x = (emptyMoves . (nonEmptyMove x) . emptyMoves) q0s where
     -- all states reachable by any number (incl. 0) of empty moves from any of
     -- the states
-    -- emptyMove :: Set a -> Set a
-    emptyMove = (readEmptySymbols nfa)
-    -- recursive read word function, takes one symbol per step
-    -- rrw :: Set a -> [b] -> Set a
-    rrw qs [] = qs
-    rrw qs (w0:w) = rrw (rs qs) w
-        where
-            -- next set of states from current set of states and current symbol
-            -- rs :: Set a -> Set a
-            rs = emptyMove . flatten . (Data.Set.map (\q -> readSymbol nfa q w0))
+    emptyMoves :: Set a -> Set a
+    emptyMoves = readEmptySymbols nfa
+    -- all states reachable by exactly the symbol x from any of the given states
+    -- (no empty moves allowed)
+    nonEmptyMove :: b -> Set a -> Set a
+    nonEmptyMove x qs = readNonEmptySymbol nfa qs x
+
+
+readWord :: forall a b. NFA a b -> [b] -> Set a
+readWord nfa@(MkNFA t q0 _) word = recReadWord q0s word where
+    -- all states reachable by any number (incl. 0) of empty moves from any of
+    -- the states
+    emptyMoves :: Set a -> Set a
+    emptyMoves = readEmptySymbols nfa
+    -- all states reachable by exactly the symbol x from any of the given states
+    -- (no empty moves allowed)
+    nonEmptyMove :: b -> Set a -> Set a
+    nonEmptyMove x qs = readNonEmptySymbol nfa qs x
+    --
+    readSymbol :: b -> Set a -> Set a
+    readSymbol x = emptyMoves . (nonEmptyMove x)
+    -- initial state (incl. empty moves)
+    -- q0s :: Set a
+    q0s = emptyMoves (singleton q0)
+    -- recursive read word function, consumes one symbol per step
+    -- recReadWord :: Set a -> [b] -> Set a
+    recReadWord qs [] = qs
+    recReadWord qs (w0:w) = recReadWord (readSymbol w0 qs) w
 
 accepts :: NFA a b -> [b] -> Bool
 accepts nfa@(MkNFA _ _ qas) word = anyAccepting qfs where
@@ -70,5 +83,5 @@ accepts nfa@(MkNFA _ _ qas) word = anyAccepting qfs where
     -- Set a -> Bool
     anyAccepting = (any (\q -> elem q qas)) . toList
 
-instance (State a, Symbol b) => Base.FA b (NFA a b) where
+instance (State a, Symbol b) => Base.FAAccept b (NFA a b) where
     accepts = accepts

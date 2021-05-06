@@ -5,8 +5,6 @@
 
 module Data.FA.DFA (
     DFA (MkDFA),
-    readSymbol,
-    readWord,
 ) where
 
 import Data.Set
@@ -35,5 +33,5 @@ readWord dfa@(MkDFA _ q0 _) word = f q0 word where
 accepts :: DFA a b -> [b] -> Bool
 accepts dfa@(MkDFA _ _ qas) word = member (readWord dfa word) qas
 
-instance (State a, Symbol b) => Base.FA b (DFA a b) where
+instance (State a, Symbol b) => Base.FAAccept b (DFA a b) where
     accepts = accepts
