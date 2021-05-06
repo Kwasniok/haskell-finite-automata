@@ -15,9 +15,11 @@ module Data.Collection.FiniteSet (
     fromSet,
     singleton,
     map,
+    powerSet,
+    filter,
 ) where
 
-import Prelude hiding (map)
+import Prelude hiding (map, filter)
 import qualified Prelude
 import qualified Data.Set as Set
 import Data.Collection.Finite
@@ -67,11 +69,11 @@ toSet = Set.fromList . toList
 
 -- filter all subsets which contain at least all the elements of the list
 filterListFiniteSetOf :: forall a. (Finite a, Eq a) => [a] -> [FiniteSet a] -> [FiniteSet a]
-filterListFiniteSetOf xs ss = filter (\s -> all (\x -> elementOf x s) xs) ss
+filterListFiniteSetOf xs ss = Prelude.filter (\s -> all (\x -> elementOf x s) xs) ss
 
 -- filter all subsets which contain no elements other than any element from the list
 filterListSupersetOf :: forall a. (Finite a, Eq a) => [a] -> [FiniteSet a] -> [FiniteSet a]
-filterListSupersetOf xs ss = filter (\s -> all (\y -> elem y xs) (toList s)) ss
+filterListSupersetOf xs ss = Prelude.filter (\s -> all (\y -> elem y xs) (toList s)) ss
 
 normalOrdered :: forall a. (Finite a, Eq a) => FiniteSet a -> FiniteSet a
 normalOrdered s = head . (filterListFiniteSetOf xs) . (filterListSupersetOf xs) $ (elements :: [FiniteSet a]) where
@@ -95,6 +97,13 @@ map f s = (normalOrdered . fromList) (Prelude.map f (toList s))
 powerlist :: (Finite a) => [a] -> [FiniteSet a]
 powerlist [] = [Empty]
 powerlist (x:ys) = (powerlist ys) ++ [Set y x | y <- (powerlist ys)]
+
+powerSet :: (Finite a, Eq a) => FiniteSet a -> FiniteSet (FiniteSet a)
+powerSet Empty = Set Empty Empty
+powerSet (Set s x) = union (powerSet s) (map (\y -> Set y x) (powerSet s))
+
+filter :: (Finite a, Eq a) => (a -> Bool) -> FiniteSet a -> FiniteSet a
+filter f = fromList . (Prelude.filter f) . toList
 
 powerSetShowCore :: (Finite a, Show a) => FiniteSet a -> String
 powerSetShowCore Empty = ""

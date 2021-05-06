@@ -9,7 +9,7 @@ State,
     dfaToNfa,
 ) where
 
-import Prelude hiding (map)
+import Prelude hiding (map, filter)
 import Data.Maybe
 import Data.Collection.Finite
 import Data.Collection.FiniteSet
