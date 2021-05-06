@@ -57,7 +57,7 @@ fold f e (Set s x) = f x (fold f e s)
 union :: (Finite a, Eq a) => FiniteSet a ->  FiniteSet a ->  FiniteSet a
 union s1 s2 = fromList ((toList s1) ++ (toList s2))
 
-flatten :: (Finite a, Ord a) => FiniteSet (FiniteSet a) -> FiniteSet a
+flatten :: (Finite a, Eq a) => FiniteSet (FiniteSet a) -> FiniteSet a
 flatten = fold union Empty
 
 toList :: (Finite a) => FiniteSet a -> [a]
