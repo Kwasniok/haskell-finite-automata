@@ -33,5 +33,9 @@ readWord dfa@(MkDFA _ q0 _) word = f q0 word where
 accepts :: DFA a b -> [b] -> Bool
 accepts dfa@(MkDFA _ _ qas) word = elementOf (readWord dfa word) qas
 
+instance (State a, Ord a, Symbol b) => Base.FARead a b (DFA a b) where
+    readSymbol = readSymbol
+    readWord = readWord
+
 instance (State a, Symbol b) => Base.FAAccept b (DFA a b) where
     accepts = accepts

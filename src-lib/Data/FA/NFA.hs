@@ -80,5 +80,9 @@ accepts nfa@(MkNFA _ _ qas) word = anyAccepting qfs where
     -- FiniteSet a -> Bool
     anyAccepting = (any (\q -> elementOf q qas)) . toList
 
+instance (State a, Ord a, Symbol b) => Base.FARead (FiniteSet a) b (NFA a b) where
+    readSymbol = readSymbol
+    readWord = readWord
+
 instance (State a, Symbol b) => Base.FAAccept b (NFA a b) where
     accepts = accepts
