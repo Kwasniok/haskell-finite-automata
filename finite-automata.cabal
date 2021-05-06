@@ -16,7 +16,7 @@ name:                finite-automata
 version:             0.1.0.0
 
 -- A short (one-line) description of the package.
-synopsis:            finite automata
+synopsis:            Package for emulating finite automata.
 
 -- A longer description of the package.
 -- description:
