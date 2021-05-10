@@ -5,7 +5,6 @@ module Data.FA (
     Symbol,
     FARead,
     FAAccept,
-    accepts,
     DFA (MkDFA),
     NFA (MkNFA),
     dfaToNfa,
