@@ -34,7 +34,7 @@ data DFA a b where
     --
     -- __Note__: The set of states and the alphabet are implicitly given by the 'Data.Collection.Finite.Finite' types @a@ and @b@.
     --
-    -- >>> -- transition function: from state `q` via symbol (Just s) or empty move (Nothing) to set of states
+    -- >>> -- transition function: from state `q` via symbol `s` to some state
     -- >>> -- behaviour: Go to state `s`.
     -- >>> t q s = s
     -- >>> -- DFA starting in state `False` and accepting a word when ending up in `True`
