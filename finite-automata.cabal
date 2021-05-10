@@ -19,7 +19,7 @@ version:             0.1.0.0
 synopsis:            Package for emulating finite automata.
 
 -- A longer description of the package.
--- description:
+description:         Package for emulating finite automata based on Michael Sipser's book 'Introduction to the Theory of Computation' (3rd edition), Cengage Learning 2013.
 
 -- A URL where users can report bugs.
 -- bug-reports:
