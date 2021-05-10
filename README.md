@@ -77,7 +77,7 @@ Gives an insight on the state transfer when reading a word
 
 Automaton accepts words ending with `True`:
 ```
->>> GHC extension needed:
+>>> -- GHC extension needed:
 >>> :set -XFlexibleContexts
 >>> -- Deterministic finite automaton with two states labeled `False` and `True`. It starts in state `False` and accepts a word if and only if it ends up in state `True`. Words are of the type [Bool].
 >>> -- transition function: Go from state `q` by reading a symbol `s` to state `s`.
