@@ -24,12 +24,12 @@ data NFA a b where
 instance (Show a, Show b) => Show (NFA a b) where
     show (MkNFA t qis qas) = (++) "NFA" $ show (states :: [a], alphabet :: [b], t, qis, qas)
 
-readEmptySymbols :: NFA a b -> FiniteSet a -> FiniteSet a
+readEmptySymbols :: forall a b. NFA a b -> FiniteSet a -> FiniteSet a
 readEmptySymbols (MkNFA t _ _) qis = Prelude.foldr union Empty qss where
     -- list of states reachable from the initial states qis by 0,1,2,...,|qis|
     -- empty moves
     -- qss :: [FiniteSet a]
-    qss = Prelude.take (size qis) (iterate res qis)
+    qss = Prelude.take (length (states :: [a])) (iterate res qis)
     -- read single empy symbol: allstates reachable by exaclty one empty move
     -- from any of the states qs
     -- res :: FiniteSet a -> FiniteSet a
