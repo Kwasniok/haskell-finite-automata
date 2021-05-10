@@ -51,15 +51,14 @@ library
   -- Modules exported by the library.
   exposed-modules: Data.FA,
                    Data.Collection.Finite,
-                   Data.Collection.FiniteSet,
-                   Data.FA.Symbol,
-                   Data.FA.State,
-                   Data.FA.Base
-                   Data.FA.DFA,
-                   Data.FA.NFA
+                   Data.Collection.FiniteSet
 
   -- Modules included in this library but not exported.
-  -- other-modules:
+  other-modules:  Data.FA.Symbol,
+                  Data.FA.State,
+                  Data.FA.Base
+                  Data.FA.DFA,
+                  Data.FA.NFA
 
   -- LANGUAGE extensions used by modules in this package.
   -- other-extensions:
